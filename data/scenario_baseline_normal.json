@@ -1,0 +1,602 @@
+[
+  {
+    "event_id": "2522decb-234d-4e99-8554-8ea9a93318e7",
+    "timestamp": "2026-01-30T01:07:28.409104",
+    "source": "App Log",
+    "user_id": "237386c6",
+    "user_tier": "Gold",
+    "content": "Forgot Password: Suggest environment behind stop media explain party off.",
+    "metadata": {
+      "latency_ms": 97,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "1ef739ee-567a-4988-bb7c-7de2bae22ee6",
+    "timestamp": "2026-01-30T00:45:28.409205",
+    "source": "App Log",
+    "user_id": "2543a78e",
+    "user_tier": "Gold",
+    "content": "ATM Location: Rule market ground week quite.",
+    "metadata": {
+      "latency_ms": 28,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "7801189b-4ac9-4068-952f-b38f823626cb",
+    "timestamp": "2026-01-30T01:04:28.409239",
+    "source": "App Log",
+    "user_id": "0068c327",
+    "user_tier": "Standard",
+    "content": "Credit Card Limit: Father check single fall mouth.",
+    "metadata": {
+      "latency_ms": 31,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "b8774764-099f-4769-9b24-6194860aa237",
+    "timestamp": "2026-01-30T00:40:28.409260",
+    "source": "Tweet",
+    "user_id": "dd573b27",
+    "user_tier": "Gold",
+    "content": "Check Balance: Whether night build.",
+    "metadata": {
+      "latency_ms": 77,
+      "sentiment": "positive"
+    }
+  },
+  {
+    "event_id": "1a8ef3f7-0808-4664-88dc-4ce7a4b7082f",
+    "timestamp": "2026-01-30T00:43:28.409279",
+    "source": "Tweet",
+    "user_id": "6ef523e1",
+    "user_tier": "Gold",
+    "content": "Check Balance: We whose performance sit as street assume.",
+    "metadata": {
+      "latency_ms": 38,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "5692fe19-6138-49d8-91e4-b3e9c28fb41c",
+    "timestamp": "2026-01-30T00:49:28.409297",
+    "source": "App Log",
+    "user_id": "7d4e7880",
+    "user_tier": "Gold",
+    "content": "Forgot Password: List girl including still.",
+    "metadata": {
+      "latency_ms": 39,
+      "sentiment": "positive"
+    }
+  },
+  {
+    "event_id": "5cc3e8c6-8fd1-482c-8171-5412646f6402",
+    "timestamp": "2026-01-30T00:39:28.409312",
+    "source": "App Log",
+    "user_id": "a7ae3027",
+    "user_tier": "Gold",
+    "content": "ATM Location: Kid feel customer.",
+    "metadata": {
+      "latency_ms": 30,
+      "sentiment": "positive"
+    }
+  },
+  {
+    "event_id": "6e00ba77-d57e-41c6-a415-7753f3b717c8",
+    "timestamp": "2026-01-30T01:24:28.409327",
+    "source": "Tweet",
+    "user_id": "d32a7e4a",
+    "user_tier": "Gold",
+    "content": "ATM Location: Nation seek current.",
+    "metadata": {
+      "latency_ms": 55,
+      "sentiment": "negative"
+    }
+  },
+  {
+    "event_id": "f9af5e5e-1ca5-46e1-adc3-463b90b53867",
+    "timestamp": "2026-01-30T01:32:28.409341",
+    "source": "Tweet",
+    "user_id": "780551ce",
+    "user_tier": "Platinum",
+    "content": "Check Balance: Boy letter read two course agreement.",
+    "metadata": {
+      "latency_ms": 20,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "4fd76f4b-954e-4084-9c44-25274974ed42",
+    "timestamp": "2026-01-30T00:59:28.409355",
+    "source": "App Log",
+    "user_id": "a9f5663d",
+    "user_tier": "Gold",
+    "content": "Forgot Password: Future left opportunity fill argue such amount.",
+    "metadata": {
+      "latency_ms": 52,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "20a8a04b-6547-4d5b-ad8b-1a147d7aeb78",
+    "timestamp": "2026-01-30T01:27:28.409369",
+    "source": "Tweet",
+    "user_id": "3c4d45ab",
+    "user_tier": "Gold",
+    "content": "Credit Card Limit: Determine member true.",
+    "metadata": {
+      "latency_ms": 29,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "09765d85-f3da-44a2-bed4-22887dfa65d1",
+    "timestamp": "2026-01-30T01:13:28.409384",
+    "source": "Tweet",
+    "user_id": "9b705fb4",
+    "user_tier": "Platinum",
+    "content": "ATM Location: Stage increase agency of high side beautiful surface.",
+    "metadata": {
+      "latency_ms": 20,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "35fc33ac-0d34-4079-9c53-71e699424ef3",
+    "timestamp": "2026-01-30T01:13:28.409399",
+    "source": "App Log",
+    "user_id": "7d4e7880",
+    "user_tier": "Gold",
+    "content": "Check Balance: Kind one quite action.",
+    "metadata": {
+      "latency_ms": 92,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "396ac99a-9f00-4f21-9c67-741dda9ed490",
+    "timestamp": "2026-01-30T00:48:28.409413",
+    "source": "Support Ticket",
+    "user_id": "9d7b995e",
+    "user_tier": "Platinum",
+    "content": "Check Balance: Nice yard behavior concern economic of.",
+    "metadata": {
+      "latency_ms": 82,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "c0999c0b-a153-457c-8550-04790d34b185",
+    "timestamp": "2026-01-30T00:34:28.409427",
+    "source": "App Log",
+    "user_id": "237386c6",
+    "user_tier": "Gold",
+    "content": "ATM Location: Magazine consumer parent fight dinner design reach.",
+    "metadata": {
+      "latency_ms": 26,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "f5568529-4b9e-4551-a9c3-ff88c87b0d58",
+    "timestamp": "2026-01-30T00:38:28.409440",
+    "source": "Support Ticket",
+    "user_id": "aba9115f",
+    "user_tier": "Platinum",
+    "content": "Branch Hours: Rise nothing no involve buy we talk.",
+    "metadata": {
+      "latency_ms": 62,
+      "sentiment": "positive"
+    }
+  },
+  {
+    "event_id": "0613b3aa-21e4-494f-9507-e8df4c719dc8",
+    "timestamp": "2026-01-30T01:13:28.409455",
+    "source": "Support Ticket",
+    "user_id": "198b789e",
+    "user_tier": "Gold",
+    "content": "Credit Card Limit: Situation edge particularly front state.",
+    "metadata": {
+      "latency_ms": 62,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "68eb9b9e-5396-4b04-a8c7-f3f5577852c4",
+    "timestamp": "2026-01-30T01:19:28.409469",
+    "source": "Support Ticket",
+    "user_id": "b5198279",
+    "user_tier": "Standard",
+    "content": "Branch Hours: Possible above on news however beautiful other.",
+    "metadata": {
+      "latency_ms": 84,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "1a08d927-af40-4715-90de-9984acd525c0",
+    "timestamp": "2026-01-30T01:23:28.409485",
+    "source": "App Log",
+    "user_id": "2a9d686b",
+    "user_tier": "Standard",
+    "content": "Forgot Password: How service pick marriage everyone.",
+    "metadata": {
+      "latency_ms": 30,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "9e689f69-9a1c-4e68-8d8d-8d13a2f626dc",
+    "timestamp": "2026-01-30T01:00:28.409499",
+    "source": "Tweet",
+    "user_id": "738f5027",
+    "user_tier": "Platinum",
+    "content": "Check Balance: These per relate run eat bar fill.",
+    "metadata": {
+      "latency_ms": 54,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "f99cb4ce-3528-47f6-994b-f5575617ad47",
+    "timestamp": "2026-01-30T01:32:28.409513",
+    "source": "Tweet",
+    "user_id": "de018161",
+    "user_tier": "Standard",
+    "content": "Branch Hours: Coach reduce story really fight every similar.",
+    "metadata": {
+      "latency_ms": 66,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "affdbda8-6da0-423b-81e6-1fdf4f47f7e4",
+    "timestamp": "2026-01-30T01:31:28.409528",
+    "source": "App Log",
+    "user_id": "245ebeb1",
+    "user_tier": "Standard",
+    "content": "Credit Card Limit: Rise enjoy along what financial toward.",
+    "metadata": {
+      "latency_ms": 73,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "aea1dcdc-b6c2-47e7-915a-a2f8405aee9f",
+    "timestamp": "2026-01-30T01:28:28.409542",
+    "source": "Tweet",
+    "user_id": "87d4c853",
+    "user_tier": "Gold",
+    "content": "Credit Card Limit: Property easy science investment.",
+    "metadata": {
+      "latency_ms": 57,
+      "sentiment": "negative"
+    }
+  },
+  {
+    "event_id": "71f04b0f-4883-4e71-aa20-0dcf775dc7af",
+    "timestamp": "2026-01-30T00:43:28.409556",
+    "source": "App Log",
+    "user_id": "c3b6e595",
+    "user_tier": "Platinum",
+    "content": "Credit Card Limit: Eye of body water case student manage.",
+    "metadata": {
+      "latency_ms": 35,
+      "sentiment": "positive"
+    }
+  },
+  {
+    "event_id": "15789953-4ad9-4736-ad35-694d08fe735f",
+    "timestamp": "2026-01-30T01:09:28.409571",
+    "source": "Tweet",
+    "user_id": "6e23bacd",
+    "user_tier": "Standard",
+    "content": "ATM Location: Sea still election second professor land medical.",
+    "metadata": {
+      "latency_ms": 23,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "24fbc5f0-4cbe-46cd-8fcf-2ea994f85e91",
+    "timestamp": "2026-01-30T01:22:28.409585",
+    "source": "App Log",
+    "user_id": "780551ce",
+    "user_tier": "Platinum",
+    "content": "Credit Card Limit: Power wait by agree program carry good.",
+    "metadata": {
+      "latency_ms": 44,
+      "sentiment": "positive"
+    }
+  },
+  {
+    "event_id": "c2646f2a-bc76-4885-a8a1-4fb127793941",
+    "timestamp": "2026-01-30T01:00:28.409600",
+    "source": "Tweet",
+    "user_id": "3c3d40f1",
+    "user_tier": "Gold",
+    "content": "Branch Hours: This quickly create put learn morning.",
+    "metadata": {
+      "latency_ms": 87,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "d3568327-6777-4613-8fc1-17c0cbba5c70",
+    "timestamp": "2026-01-30T01:27:28.409617",
+    "source": "Tweet",
+    "user_id": "872a0d8a",
+    "user_tier": "Gold",
+    "content": "Credit Card Limit: Respond task continue tell a.",
+    "metadata": {
+      "latency_ms": 38,
+      "sentiment": "positive"
+    }
+  },
+  {
+    "event_id": "3a92affa-5f9c-4859-be89-1b144d837aa6",
+    "timestamp": "2026-01-30T01:15:28.409631",
+    "source": "App Log",
+    "user_id": "3551a7e4",
+    "user_tier": "Standard",
+    "content": "ATM Location: Some a policy matter.",
+    "metadata": {
+      "latency_ms": 38,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "37fccdeb-3f51-4627-ae98-0ceefa959bfb",
+    "timestamp": "2026-01-30T01:09:28.409646",
+    "source": "Support Ticket",
+    "user_id": "2543a78e",
+    "user_tier": "Gold",
+    "content": "Credit Card Limit: International group author cover material professor.",
+    "metadata": {
+      "latency_ms": 68,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "92047e74-c089-4259-bc11-1aec3649451f",
+    "timestamp": "2026-01-30T01:15:28.409661",
+    "source": "Support Ticket",
+    "user_id": "40605092",
+    "user_tier": "Platinum",
+    "content": "Credit Card Limit: Develop property firm listen mind pattern.",
+    "metadata": {
+      "latency_ms": 88,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "d3ec6508-5c99-43ca-aa99-b6e06a829270",
+    "timestamp": "2026-01-30T00:39:28.409676",
+    "source": "Tweet",
+    "user_id": "2a5e86b6",
+    "user_tier": "Platinum",
+    "content": "ATM Location: Commercial water although none reality.",
+    "metadata": {
+      "latency_ms": 95,
+      "sentiment": "positive"
+    }
+  },
+  {
+    "event_id": "0720f3db-6934-4b3e-baa7-1bb83848886b",
+    "timestamp": "2026-01-30T00:44:28.409691",
+    "source": "Tweet",
+    "user_id": "f62fc982",
+    "user_tier": "Standard",
+    "content": "Check Balance: It any some ability fear several.",
+    "metadata": {
+      "latency_ms": 29,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "ae52e556-f235-4a9e-9141-a222566005ea",
+    "timestamp": "2026-01-30T01:14:28.409706",
+    "source": "Tweet",
+    "user_id": "735b7b4c",
+    "user_tier": "Gold",
+    "content": "Check Balance: South approach car simply evening number.",
+    "metadata": {
+      "latency_ms": 47,
+      "sentiment": "positive"
+    }
+  },
+  {
+    "event_id": "6b7b9a39-f9f2-4c7c-a3be-72f6a5b65cff",
+    "timestamp": "2026-01-30T01:13:28.409721",
+    "source": "App Log",
+    "user_id": "f8d84a1e",
+    "user_tier": "Standard",
+    "content": "Check Balance: Action hundred nation risk indeed across quite.",
+    "metadata": {
+      "latency_ms": 85,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "928d116a-3c43-40dd-bed7-60beb535862a",
+    "timestamp": "2026-01-30T01:20:28.409736",
+    "source": "Tweet",
+    "user_id": "bc7a39eb",
+    "user_tier": "Gold",
+    "content": "Forgot Password: Main right including plant camera.",
+    "metadata": {
+      "latency_ms": 55,
+      "sentiment": "positive"
+    }
+  },
+  {
+    "event_id": "55e34fe8-0bc4-42dc-a6a8-44eb7878cafd",
+    "timestamp": "2026-01-30T00:54:28.409751",
+    "source": "Support Ticket",
+    "user_id": "237386c6",
+    "user_tier": "Gold",
+    "content": "Branch Hours: Assume war of standard.",
+    "metadata": {
+      "latency_ms": 72,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "79e1044a-601f-491e-8bc7-56755ef8c3de",
+    "timestamp": "2026-01-30T00:58:28.409767",
+    "source": "Tweet",
+    "user_id": "af048451",
+    "user_tier": "Gold",
+    "content": "ATM Location: Cut game effect cultural bad pretty.",
+    "metadata": {
+      "latency_ms": 30,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "cbcb14a6-aa39-417d-8c27-2d8fee589748",
+    "timestamp": "2026-01-30T00:47:28.409781",
+    "source": "App Log",
+    "user_id": "f62fc982",
+    "user_tier": "Standard",
+    "content": "Branch Hours: Early clearly capital however treatment measure be.",
+    "metadata": {
+      "latency_ms": 70,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "4cbddbd6-e60b-47a2-b567-098e545ddbb4",
+    "timestamp": "2026-01-30T00:39:28.409795",
+    "source": "Support Ticket",
+    "user_id": "ccfda0f9",
+    "user_tier": "Gold",
+    "content": "Forgot Password: Common month his more push.",
+    "metadata": {
+      "latency_ms": 42,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "6677d145-d88b-4187-8bfd-f4d52093f8e1",
+    "timestamp": "2026-01-30T01:02:28.409811",
+    "source": "Tweet",
+    "user_id": "df74c2c9",
+    "user_tier": "Gold",
+    "content": "ATM Location: Newspaper street start leader memory risk far.",
+    "metadata": {
+      "latency_ms": 37,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "87c953de-d9f7-431d-9feb-4b2c7f9d1562",
+    "timestamp": "2026-01-30T01:11:28.409828",
+    "source": "Support Ticket",
+    "user_id": "de12acd9",
+    "user_tier": "Platinum",
+    "content": "ATM Location: Eight specific these mention answer.",
+    "metadata": {
+      "latency_ms": 83,
+      "sentiment": "positive"
+    }
+  },
+  {
+    "event_id": "0992cbaa-9be5-4128-a9e1-2028b46f6c92",
+    "timestamp": "2026-01-30T00:33:28.409843",
+    "source": "App Log",
+    "user_id": "2a9d686b",
+    "user_tier": "Standard",
+    "content": "Credit Card Limit: Few again behavior.",
+    "metadata": {
+      "latency_ms": 93,
+      "sentiment": "positive"
+    }
+  },
+  {
+    "event_id": "4a788c2d-57aa-4b25-b72d-b5081bbd139d",
+    "timestamp": "2026-01-30T00:58:28.409858",
+    "source": "Tweet",
+    "user_id": "8b82bd65",
+    "user_tier": "Standard",
+    "content": "Forgot Password: Main different from why result base.",
+    "metadata": {
+      "latency_ms": 66,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "aa762b01-a7a1-43f7-a1b8-ad5f8fc0665e",
+    "timestamp": "2026-01-30T00:53:28.409872",
+    "source": "App Log",
+    "user_id": "ba372a2b",
+    "user_tier": "Platinum",
+    "content": "Branch Hours: My never note make win.",
+    "metadata": {
+      "latency_ms": 51,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "8d48f181-d36f-4866-a8ac-d2aaf059159b",
+    "timestamp": "2026-01-30T01:16:28.409885",
+    "source": "Tweet",
+    "user_id": "d7dde525",
+    "user_tier": "Gold",
+    "content": "Credit Card Limit: Soldier environmental by difficult mention animal friend.",
+    "metadata": {
+      "latency_ms": 95,
+      "sentiment": "positive"
+    }
+  },
+  {
+    "event_id": "f7255d5a-7cd7-40f9-8bde-e7f5033d6ecf",
+    "timestamp": "2026-01-30T01:00:28.409900",
+    "source": "App Log",
+    "user_id": "df0d9e3e",
+    "user_tier": "Standard",
+    "content": "ATM Location: Because field child by run word so.",
+    "metadata": {
+      "latency_ms": 85,
+      "sentiment": "positive"
+    }
+  },
+  {
+    "event_id": "09a80097-9d63-4e15-8f13-98ba1ca813ab",
+    "timestamp": "2026-01-30T00:44:28.409915",
+    "source": "Support Ticket",
+    "user_id": "c5bd55cc",
+    "user_tier": "Standard",
+    "content": "Forgot Password: Beat capital method hear billion.",
+    "metadata": {
+      "latency_ms": 59,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "b2cd5e8e-b046-4bcc-a7c4-7748e4ba5281",
+    "timestamp": "2026-01-30T01:02:28.409928",
+    "source": "App Log",
+    "user_id": "80d78f17",
+    "user_tier": "Gold",
+    "content": "Branch Hours: Media adult same entire seek.",
+    "metadata": {
+      "latency_ms": 62,
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "event_id": "d6371d08-71cb-42ef-8044-72710c1a538e",
+    "timestamp": "2026-01-30T00:33:28.409943",
+    "source": "Tweet",
+    "user_id": "7ee11ab2",
+    "user_tier": "Gold",
+    "content": "Branch Hours: Trip quickly pick say law.",
+    "metadata": {
+      "latency_ms": 30,
+      "sentiment": "positive"
+    }
+  }
+]

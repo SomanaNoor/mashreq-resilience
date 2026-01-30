@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+ENV/
+.env
+
+# Streamlit
+.streamlit/
+static/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+build/
+dist/
+frontend/node_modules/
+my-project/node_modules/
+my-project/.next/
+
+# Data & Logs
+data/*.csv
+data/*.json
+!data/scenario_baseline_normal.json
+audit_trail.csv
+audit_log.json
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

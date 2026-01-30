@@ -1,0 +1,12 @@
+langchain
+langgraph
+langchain-openai
+faker
+streamlit
+python-dotenv
+tiktoken
+pytest
+langchain-groq
+plotly
+fastapi
+uvicorn
