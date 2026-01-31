@@ -1,13 +1,28 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
+from typing import List, Optional, Dict, Any
 import json
 import os
 import csv
+import io
 from datetime import datetime
-from .simulation_engine import SimulationEngine
 
-app = FastAPI(title="Mashreq Resilience API", version="1.0")
+# Import pipeline components
+import sys
+sys.path.insert(0, os.path.dirname(__file__))
+
+from simulation_engine import SimulationEngine
+from guardrails import get_guardrails
+from responsible_ai_pipeline import get_pipeline
+from audit_logger import get_audit_logger
+
+app = FastAPI(
+    title="Mashreq Responsible AI API", 
+    version="2.0",
+    description="10-Stage Responsible AI Pipeline API"
+)
 
 # Allow CORS for Next.js (usually runs on port 3000)
 app.add_middleware(
@@ -93,6 +108,127 @@ def run_simulation(req: SimulationRequest):
         "simulation_sample": result['simulation_data'].tolist()[:500] 
     }
 
+
+# ============================================================================
+# NEW RESPONSIBLE AI ENDPOINTS
+# ============================================================================
+
+class ProcessEventsRequest(BaseModel):
+    events: List[Dict[str, Any]]
+
+class HumanDecisionRequest(BaseModel):
+    cluster_id: str
+    decision: str  # APPROVED, DISMISSED, MORE_REVIEW
+    user: str
+    reason: Optional[str] = None
+
+
+@app.get("/governance")
+def get_governance():
+    """Get governance guardrails and policy information."""
+    guardrails = get_guardrails()
+    return {
+        "policy": guardrails.get_policy_text(),
+        "boundaries": guardrails.get_boundaries(),
+        "footer": guardrails.get_governance_footer(),
+        "decision_banner": guardrails.get_decision_banner()
+    }
+
+
+@app.get("/governance/data-card")
+def get_data_card():
+    """Get the data card documentation."""
+    card_path = "data/data_card.json"
+    if os.path.exists(card_path):
+        with open(card_path, 'r') as f:
+            return json.load(f)
+    return {"error": "Data card not found"}
+
+
+@app.get("/governance/model-card")
+def get_model_card():
+    """Get the model card documentation."""
+    card_path = "data/model_card.json"
+    if os.path.exists(card_path):
+        with open(card_path, 'r') as f:
+            return json.load(f)
+    return {"error": "Model card not found"}
+
+
+@app.post("/pipeline/process")
+def process_events(req: ProcessEventsRequest):
+    """Process events through the 10-stage Responsible AI pipeline."""
+    if not req.events:
+        raise HTTPException(status_code=400, detail="No events provided")
+    
+    pipeline = get_pipeline()
+    result = pipeline.process(req.events)
+    
+    # Convert cluster analyses to JSON-serializable format
+    clusters = []
+    for analysis in result.cluster_analyses:
+        clusters.append(analysis.to_analyst_card())
+    
+    return {
+        "governance_validated": result.governance_validated,
+        "validation_issues": result.validation_issues,
+        "gating": {
+            "signal_count": result.gating_result.signal_count,
+            "noise_count": result.gating_result.noise_count,
+            "summary": result.gating_result.gating_summary
+        },
+        "clustering": {
+            "cluster_count": result.clustering_result.cluster_count,
+            "category_distribution": result.clustering_result.category_distribution
+        },
+        "clusters": clusters,
+        "processing_time_ms": result.processing_time_ms,
+        "timestamp": result.timestamp
+    }
+
+
+@app.post("/pipeline/decision")
+def log_human_decision(req: HumanDecisionRequest):
+    """Log a human decision for a cluster."""
+    pipeline = get_pipeline()
+    success = pipeline.log_human_decision(
+        cluster_id=req.cluster_id,
+        decision=req.decision,
+        user=req.user,
+        reason=req.reason
+    )
+    
+    return {"status": "logged" if success else "failed", "cluster_id": req.cluster_id}
+
+
+@app.get("/audit/records")
+def get_audit_records(limit: int = 50):
+    """Get recent audit records."""
+    logger = get_audit_logger()
+    return logger.get_recent_records(limit)
+
+
+@app.get("/audit/stats")
+def get_audit_stats():
+    """Get audit log statistics."""
+    logger = get_audit_logger()
+    return logger.get_stats()
+
+
+@app.get("/audit/export")
+def export_audit_csv():
+    """Export audit log as CSV."""
+    logger = get_audit_logger()
+    csv_data = logger.export_csv()
+    
+    return StreamingResponse(
+        io.BytesIO(csv_data),
+        media_type="text/csv",
+        headers={"Content-Disposition": "attachment; filename=audit_trail.csv"}
+    )
+
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
+
