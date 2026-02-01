@@ -50,26 +50,31 @@ st.markdown("""
     
     /* =========== ROOT VARIABLES =========== */
     :root {
-        --bg-primary: #0A0E17;
-        --bg-secondary: #12161F;
-        --bg-card: rgba(18, 22, 31, 0.85);
-        --bg-glass: rgba(255, 255, 255, 0.03);
-        --accent-orange: #FF5E00;
-        --accent-gold: #D4AF37;
-        --accent-blue: #3B82F6;
-        --accent-green: #10B981;
-        --accent-red: #EF4444;
-        --accent-purple: #8B5CF6;
-        --text-primary: #FFFFFF;
-        --text-secondary: #94A3B8;
-        --text-muted: #64748B;
-        --border-subtle: rgba(255, 255, 255, 0.08);
-        --glow-orange: 0 0 40px rgba(255, 94, 0, 0.3);
+        /* Brand Colors */
+        --brand-sunrise: #F37021; /* Core Orange */
+        --brand-onyx: #2B2B2B;    /* Primary Text */
+        --brand-slate: #4B5563;   /* Secondary Text - Darkened for better contrast */
+        --brand-cloud: #E5E7EB;   /* Borders */
+        --brand-blue: #1B4298;    /* Safe Blue (Governance) */
+        
+        /* Backgrounds (Light Theme) */
+        --bg-primary: #F7F8FA;    /* Page Background (Elevation) */
+        --bg-card: #FFFFFF;       /* Card Surface */
+        
+        /* Semantic Colors */
+        --status-critical: #EF4444;       /* Red (Telemetry only) */
+        --risk-high: #EA580C;             /* Deep Orange */
+        --risk-low: #FFF7ED;              /* Light Orange */
+        
+        /* Shadows */
+        --shadow-lift: 0 4px 12px rgba(0, 0, 0, 0.05);
+        --shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.08);
     }
     
     /* =========== BASE STYLES =========== */
     .stApp {
-        background: linear-gradient(135deg, var(--bg-primary) 0%, #0F1420 50%, var(--bg-secondary) 100%);
+        background-color: var(--bg-primary);
+        color: var(--brand-onyx);
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
     
@@ -78,83 +83,75 @@ st.markdown("""
     
     /* =========== HERO HEADER =========== */
     .hero-header {
-        background: linear-gradient(135deg, rgba(255, 94, 0, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%);
-        border: 1px solid rgba(255, 94, 0, 0.2);
-        border-radius: 24px;
+        background: var(--bg-card);
+        border-top: 4px solid var(--brand-sunrise);
+        border-bottom: 1px solid var(--brand-cloud);
+        border-radius: 0 0 12px 12px;
         padding: 32px 40px;
         margin-bottom: 32px;
-        position: relative;
-        overflow: hidden;
+        box-shadow: var(--shadow-lift);
     }
-    .hero-header::before {
-        content: '';
-        position: absolute;
-        top: 0; left: 0; right: 0;
-        height: 3px;
-        background: linear-gradient(90deg, var(--accent-orange), var(--accent-gold));
-    }
+    
     .hero-title {
         font-size: 2.5rem;
         font-weight: 800;
-        background: linear-gradient(135deg, #FFFFFF 0%, var(--accent-gold) 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: var(--brand-onyx);
         margin: 0 0 8px 0;
+        letter-spacing: -0.5px;
     }
     .hero-subtitle {
-        color: var(--text-secondary);
+        color: var(--brand-slate);
         font-size: 1.1rem;
         font-weight: 400;
     }
     
-    /* =========== GLASSMORPHISM CARDS =========== */
+    /* =========== CARDS (Modern Clean) =========== */
     .glass-card {
-        background: var(--bg-glass);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border: 1px solid var(--border-subtle);
-        border-radius: 20px;
+        background: var(--bg-card);
+        border: 1px solid var(--brand-cloud);
+        border-radius: 12px;
         padding: 24px;
         margin-bottom: 20px;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: var(--shadow-lift);
+        transition: all 0.2s ease;
     }
     .glass-card:hover {
-        border-color: rgba(255, 94, 0, 0.3);
-        box-shadow: var(--glow-orange);
         transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+        border-color: var(--brand-sunrise);
     }
     
     /* =========== SIGNAL CARDS =========== */
     .signal-card {
-        background: linear-gradient(135deg, var(--bg-card) 0%, rgba(18, 22, 31, 0.95) 100%);
-        border: 1px solid var(--border-subtle);
-        border-radius: 20px;
+        background: var(--bg-card);
+        border: 1px solid var(--brand-cloud);
+        border-radius: 12px;
         padding: 28px;
         margin-bottom: 20px;
         position: relative;
-        overflow: hidden;
-        transition: all 0.3s ease;
+        box-shadow: var(--shadow-lift);
+        transition: all 0.2s ease;
     }
+    .signal-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+        border-color: var(--brand-sunrise);
+    }
+    
     .signal-card::before {
         content: '';
         position: absolute;
-        left: 0; top: 0; bottom: 0;
+        left: 0; top: 12px; bottom: 12px;
         width: 4px;
-        border-radius: 4px 0 0 4px;
+        border-radius: 0 4px 4px 0;
     }
-    .signal-card.critical::before { background: linear-gradient(180deg, var(--accent-red), #DC2626); }
-    .signal-card.high::before { background: linear-gradient(180deg, var(--accent-orange), var(--accent-gold)); }
-    .signal-card.medium::before { background: linear-gradient(180deg, var(--accent-gold), #FBBF24); }
-    .signal-card.low::before { background: linear-gradient(180deg, var(--accent-blue), #60A5FA); }
-    
-    .signal-card:hover {
-        border-color: rgba(255, 94, 0, 0.4);
-        box-shadow: 0 20px 60px -20px rgba(255, 94, 0, 0.25);
-        transform: translateY(-4px);
-    }
+    .signal-card.critical::before { background-color: var(--status-critical); }
+    .signal-card.high::before { background-color: var(--risk-high); }
+    .signal-card.medium::before { background-color: #F59E0B; }
+    .signal-card.low::before { background-color: #3B82F6; }
     
     .signal-title {
-        color: var(--text-primary);
+        color: var(--brand-onyx);
         font-size: 1.25rem;
         font-weight: 700;
         margin-bottom: 12px;
@@ -170,261 +167,154 @@ st.markdown("""
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        padding: 8px 16px;
-        border-radius: 50px;
-        font-size: 0.85rem;
+        padding: 6px 14px;
+        border-radius: 6px;
+        font-size: 0.8rem;
         font-weight: 600;
     }
     .risk-badge {
-        background: rgba(239, 68, 68, 0.15);
-        color: #FCA5A5;
-        border: 1px solid rgba(239, 68, 68, 0.3);
+        background: var(--risk-low);
+        color: var(--risk-high);
+        border: 1px solid rgba(234, 88, 12, 0.2);
     }
-    .risk-badge.high {
-        background: rgba(255, 94, 0, 0.15);
-        color: #FDBA74;
-        border: 1px solid rgba(255, 94, 0, 0.3);
-    }
+    .risk-badge.low { background: #FFF7ED; color: #EA580C; border-color: #FED7AA; } /* Light Orange */
+    .risk-badge.medium { background: #FFEDD5; color: #EA580C; border-color: #FDBA74; } /* Medium Orange */
+    .risk-badge.high { background: #FED7AA; color: #C2410C; border-color: #FB923C; } /* Deep Orange */
+    .risk-badge.critical { background: #FDBA74; color: #9A3412; border-color: #F97316; } /* Darkest Orange */
     .confidence-badge {
-        background: rgba(59, 130, 246, 0.15);
-        color: #93C5FD;
-        border: 1px solid rgba(59, 130, 246, 0.3);
+        background: #F3F4F6;
+        color: var(--brand-slate);
+        border: 1px solid var(--brand-cloud);
     }
     .category-badge {
-        background: rgba(139, 92, 246, 0.15);
-        color: #C4B5FD;
-        border: 1px solid rgba(139, 92, 246, 0.3);
+        background: #EEF2FF;
+        color: #4F46E5;
+        border: 1px solid #E0E7FF;
     }
     
     /* =========== AI REASONING BOX =========== */
     .ai-reasoning {
-        background: rgba(255, 94, 0, 0.05);
-        border-left: 3px solid var(--accent-orange);
-        border-radius: 0 12px 12px 0;
+        background: #FFF7ED; /* Very light orange */
+        border-left: 3px solid var(--brand-sunrise);
+        border-radius: 0 8px 8px 0;
         padding: 16px 20px;
         margin: 16px 0;
     }
     .ai-reasoning-title {
-        color: var(--accent-gold);
+        color: var(--brand-sunrise);
         font-size: 0.75rem;
         font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 1px;
+        letter-spacing: 0.5px;
         margin-bottom: 8px;
     }
     .ai-reasoning-text {
-        color: var(--text-secondary);
+        color: var(--brand-onyx);
         font-size: 0.95rem;
         line-height: 1.6;
     }
     
     /* =========== ACTION BUTTONS =========== */
-    .action-btn {
-        padding: 12px 24px;
-        border-radius: 12px;
-        font-weight: 600;
-        font-size: 0.9rem;
-        cursor: pointer;
-        transition: all 0.2s ease;
+    .stButton > button {
+        background-color: var(--brand-sunrise);
+        color: white;
         border: none;
+        border-radius: 8px;
+        padding: 10px 24px;
+        font-weight: 600;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 4px rgba(243, 112, 33, 0.2);
     }
-    .action-btn.escalate {
-        background: linear-gradient(135deg, var(--accent-orange), #FF7A00);
+    .stButton > button:hover {
+        background-color: #D95D10; /* Darker orange */
+        box-shadow: 0 4px 8px rgba(243, 112, 33, 0.3);
+        transform: translateY(-1px);
         color: white;
     }
-    .action-btn.dismiss {
-        background: transparent;
-        color: var(--text-secondary);
-        border: 1px solid var(--border-subtle);
+    .stButton > button[kind="secondary"] {
+        background: white;
+        border: 1px solid var(--brand-cloud);
+        color: var(--brand-slate);
+        box-shadow: none;
     }
-    
+    .stButton > button[kind="secondary"]:hover {
+        border-color: var(--brand-sunrise);
+        color: var(--brand-sunrise);
+    }
+
     /* =========== KPI METRICS =========== */
-    .kpi-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 20px;
-        margin-bottom: 32px;
-    }
     .kpi-card {
-        background: var(--bg-glass);
-        backdrop-filter: blur(16px);
-        border: 1px solid var(--border-subtle);
-        border-radius: 16px;
+        background: var(--bg-card);
+        border: 1px solid var(--brand-cloud);
+        border-radius: 12px;
         padding: 24px;
         text-align: center;
+        box-shadow: var(--shadow-lift);
     }
     .kpi-value {
         font-size: 2.5rem;
         font-weight: 800;
-        background: linear-gradient(135deg, var(--accent-orange), var(--accent-gold));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: var(--brand-sunrise);
+        letter-spacing: -1px;
     }
     .kpi-label {
-        color: var(--text-secondary);
+        color: var(--brand-slate);
         font-size: 0.85rem;
         font-weight: 500;
-        margin-top: 8px;
-    }
-    
-    /* =========== TEAM ROUTING =========== */
-    .team-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 12px;
-        margin: 16px 0;
-    }
-    .team-btn {
-        background: var(--bg-glass);
-        border: 1px solid var(--border-subtle);
-        border-radius: 12px;
-        padding: 16px;
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
-    .team-btn:hover {
-        border-color: var(--accent-orange);
-        background: rgba(255, 94, 0, 0.1);
-    }
-    .team-btn.selected {
-        border-color: var(--accent-orange);
-        background: rgba(255, 94, 0, 0.15);
-        box-shadow: 0 0 20px rgba(255, 94, 0, 0.2);
-    }
-    
-    /* =========== AUDIT LOG =========== */
-    .audit-entry {
-        background: var(--bg-glass);
-        border: 1px solid var(--border-subtle);
-        border-radius: 12px;
-        padding: 16px 20px;
-        margin-bottom: 12px;
-        display: flex;
-        align-items: center;
-        gap: 16px;
-    }
-    .audit-timestamp {
-        color: var(--text-muted);
-        font-size: 0.8rem;
-        font-family: 'SF Mono', monospace;
-        min-width: 140px;
-    }
-    .audit-action {
-        padding: 4px 12px;
-        border-radius: 6px;
-        font-size: 0.75rem;
-        font-weight: 600;
+        margin-top: 4px;
         text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
-    .audit-action.escalated { background: rgba(255, 94, 0, 0.2); color: #FDBA74; }
-    .audit-action.dismissed { background: rgba(100, 116, 139, 0.2); color: #94A3B8; }
-    .audit-action.approved { background: rgba(16, 185, 129, 0.2); color: #6EE7B7; }
     
-    /* =========== TABS OVERRIDE =========== */
+    /* =========== TABS =========== */
     .stTabs [data-baseweb="tab-list"] {
-        background: var(--bg-glass);
-        border-radius: 16px;
-        padding: 8px;
-        gap: 8px;
+        background: transparent;
+        border-bottom: 1px solid var(--brand-cloud);
+        gap: 24px;
+        padding-bottom: 0;
     }
     .stTabs [data-baseweb="tab"] {
         background: transparent;
-        border-radius: 12px;
-        color: var(--text-secondary);
+        color: var(--brand-slate);
         font-weight: 600;
-        padding: 12px 24px;
+        padding: 12px 0;
+        border: none;
+        border-radius: 0;
     }
     .stTabs [aria-selected="true"] {
-        background: linear-gradient(135deg, var(--accent-orange), var(--accent-gold)) !important;
-        color: white !important;
+        background: transparent !important;
+        color: var(--brand-sunrise) !important;
+        border-bottom: 3px solid var(--brand-sunrise);
     }
     
-    /* =========== STREAMLIT OVERRIDES =========== */
-    .stButton > button {
-        background: linear-gradient(135deg, var(--accent-orange), #FF7A00);
-        color: white;
-        border: none;
-        border-radius: 12px;
-        padding: 12px 24px;
-        font-weight: 600;
-        transition: all 0.2s ease;
-    }
-    .stButton > button:hover {
-        box-shadow: 0 10px 30px -10px rgba(255, 94, 0, 0.5);
-        transform: translateY(-2px);
-    }
-    .stButton > button[kind="secondary"] {
-        background: transparent;
-        border: 1px solid var(--border-subtle);
-        color: var(--text-secondary);
-    }
-    
-    .stSelectbox > div > div {
-        background: var(--bg-glass);
-        border: 1px solid var(--border-subtle);
-        border-radius: 12px;
-    }
-    
-    .stTextInput > div > div {
-        background: var(--bg-glass);
-        border: 1px solid var(--border-subtle);
-        border-radius: 12px;
+    /* =========== FORM ELEMENTS =========== */
+    .stSelectbox > div > div, .stTextInput > div > div {
+        background: var(--bg-card);
+        border: 1px solid var(--brand-cloud);
+        border-radius: 8px;
+        color: var(--brand-onyx);
     }
     
     /* =========== DECISION BANNER =========== */
     .decision-banner {
-        background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(59, 130, 246, 0.1));
-        border: 1px solid rgba(16, 185, 129, 0.3);
-        border-radius: 16px;
+        background: #F0FDF4; /* Light green */
+        border: 1px solid #BBF7D0;
+        border-radius: 12px;
         padding: 20px 28px;
         margin-bottom: 24px;
         display: flex;
         align-items: center;
         gap: 16px;
     }
-    .decision-banner-icon {
-        font-size: 2rem;
-    }
     .decision-banner-text {
-        color: var(--text-primary);
+        color: #15803D;
         font-weight: 600;
     }
     .decision-banner-sub {
-        color: var(--text-secondary);
+        color: #16A34A;
         font-size: 0.9rem;
     }
-    
-    /* =========== PROGRESS BAR =========== */
-    .risk-bar-container {
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 50px;
-        height: 8px;
-        overflow: hidden;
-        margin-top: 8px;
-    }
-    .risk-bar-fill {
-        height: 100%;
-        border-radius: 50px;
-        background: linear-gradient(90deg, var(--accent-orange), var(--accent-gold));
-        transition: width 1s ease;
-    }
-    
-    /* =========== EXECUTIVE SUMMARY =========== */
-    .exec-summary {
-        background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(255, 94, 0, 0.05));
-        border: 1px solid rgba(212, 175, 55, 0.3);
-        border-radius: 20px;
-        padding: 32px;
-        margin-bottom: 24px;
-    }
-    .exec-summary-title {
-        color: var(--accent-gold);
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin-bottom: 16px;
-    }
-    
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -597,21 +487,21 @@ def render_signal_card(analysis, show_actions=True, key_prefix=""):
     if consensus_notes:
         notes_text = "<br>".join(consensus_notes[:2])
         consensus_html = f'''
-<div style="margin-top: 12px; padding: 12px; background: rgba(245, 158, 11, 0.1); border-radius: 8px; border-left: 3px solid #F59E0B;">
-    <div style="color: #FBBF24; font-weight: 600; font-size: 0.8rem; margin-bottom: 4px;">🤖 Consensus Analysis (NB vs Groq)</div>
-    <div style="color: #94A3B8; font-size: 0.85rem;">{notes_text}</div>
+<div style="margin-top: 12px; padding: 12px; background: #FFF7ED; border-radius: 8px; border-left: 3px solid #EA580C;">
+    <div style="color: #EA580C; font-weight: 600; font-size: 0.8rem; margin-bottom: 4px;">🤖 Consensus Analysis (NB vs Groq)</div>
+    <div style="color: #6B7280; font-size: 0.85rem;">{notes_text}</div>
 </div>'''
     
     # Build keywords/top phrases HTML
     keywords_html = ""
     if top_phrases:
         keyword_badges = " ".join([
-            f'<span style="display: inline-block; padding: 4px 12px; margin: 3px; background: rgba(212, 175, 55, 0.15); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 20px; font-size: 0.8rem; color: #D4AF37; font-weight: 500;">🏷️ {phrase}</span>'
+            f'<span style="display: inline-block; padding: 4px 12px; margin: 3px; background: rgba(243, 112, 33, 0.1); border: 1px solid rgba(243, 112, 33, 0.3); border-radius: 20px; font-size: 0.8rem; color: #C2410C; font-weight: 500;">🏷️ {phrase}</span>'
             for phrase in top_phrases[:6]  # Show max 6 keywords
         ])
         keywords_html = f'''
 <div style="margin-top: 12px; margin-bottom: 12px;">
-    <div style="color: #94A3B8; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">🔑 Key Themes</div>
+    <div style="color: var(--brand-slate); font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">🔑 Key Themes</div>
     <div style="display: flex; flex-wrap: wrap; gap: 4px;">{keyword_badges}</div>
 </div>'''
     
@@ -631,7 +521,7 @@ def render_signal_card(analysis, show_actions=True, key_prefix=""):
 <div class="signal-meta" style="margin-bottom: 8px;">{viral_badge}</div>
 <div class="signal-title">{title}</div>
 <div class="signal-meta">
-<span class="score-badge risk-badge" style="background: rgba({int(risk_color[1:3], 16)}, {int(risk_color[3:5], 16)}, {int(risk_color[5:7], 16)}, 0.15);">⚠️ Risk: {risk_score}/10</span>
+<span class="score-badge risk-badge {risk_level}">⚠️ Risk: {risk_score}/10</span>
 {ambiguity_badge}
 <span class="score-badge category-badge">📂 {category}</span>
 {consensus_badges}
@@ -640,13 +530,13 @@ def render_signal_card(analysis, show_actions=True, key_prefix=""):
 <div class="ai-reasoning">
         <div class="ai-reasoning-title">🤖 AI Reasoning</div>
         <div class="ai-reasoning-text">
-            <span style="font-weight: 600; color: #D4AF37;">Signal:</span> {signal_text}
+            <span style="font-weight: 600; color: var(--brand-sunrise);">Signal:</span> {signal_text}
         </div>
         <div class="ai-reasoning-text" style="margin-top: 8px;">
-            <span style="font-weight: 600; color: #D4AF37;">Why it matters:</span> {why_matters}
+            <span style="font-weight: 600; color: var(--brand-sunrise);">Why it matters:</span> {why_matters}
         </div>
         <div class="ai-reasoning-text" style="margin-top: 8px;">
-            <span style="font-weight: 600; color: #D4AF37;">Uncertainty:</span> {uncertainty}
+            <span style="font-weight: 600; color: var(--brand-sunrise);">Uncertainty:</span> {uncertainty}
         </div>
         {consensus_html}
     </div>
@@ -689,8 +579,8 @@ def render_system_health_leds(health_data):
         
         with cols[idx]:
             st.markdown(f"""
-            <div style="background: rgba(255,255,255,0.05); border-radius: 10px; padding: 10px; text-align: center; border: 1px solid rgba(255,255,255,0.1);">
-                <div style="font-size: 0.7rem; color: #94A3B8; text-transform: uppercase;">{display_name}</div>
+            <div style="background: var(--bg-card); border-radius: 10px; padding: 10px; text-align: center; border: 1px solid var(--brand-cloud); box-shadow: var(--shadow-lift);">
+                <div style="font-size: 0.7rem; color: var(--brand-slate); text-transform: uppercase;">{display_name}</div>
                 <div style="margin-top: 5px;">
                     <span style="
                         height: 12px; 
@@ -698,13 +588,13 @@ def render_system_health_leds(health_data):
                         background-color: {color}; 
                         border-radius: 50%; 
                         display: inline-block;
-                        box-shadow: 0 0 10px {color};
+                        box-shadow: 0 0 5px {color};
                     "></span>
                     <span style="font-size: 0.8rem; font-weight: 700; color: {color}; margin-left: 5px;">
                         {sys.status.value}
                     </span>
                 </div>
-                <div style="font-size: 0.65rem; color: #64748B; margin-top: 2px;">
+                <div style="font-size: 0.65rem; color: var(--brand-slate); margin-top: 2px;">
                     {sys.latency_ms}ms • Err: {sys.error_rate:.1f}%
                 </div>
             </div>
@@ -748,9 +638,9 @@ def render_escalation_card(analysis):
     
     # Header
     st.markdown(f"""
-    <div style="border-left: 4px solid #F59E0B; padding-left: 16px; margin-bottom: 20px;">
-        <div style="font-size: 1.5rem; font-weight: 700; color: #E2E8F0;">🚨 INCIDENT: {card['title']}</div>
-        <div style="color: #94A3B8; font-family: monospace;">ID: {cluster_id} • RISK SCORE: {card['risk_score']}/10</div>
+    <div style="border-left: 4px solid #F37021; padding-left: 16px; margin-bottom: 20px;">
+        <div style="font-size: 1.5rem; font-weight: 700; color: var(--brand-onyx);">🚨 INCIDENT: {card['title']}</div>
+        <div style="color: var(--brand-slate); font-family: monospace; font-weight: 500;">ID: {cluster_id} • RISK SCORE: {card['risk_score']}/10</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -772,7 +662,7 @@ def render_escalation_card(analysis):
                 <div style="font-size: 1.5rem;">{'✅' if correlation.action_required else '📉'}</div>
                 <div>
                     <div style="color: {corr_color}; font-weight: 700; font-size: 0.9rem; text-transform: uppercase;">{correlation.status_text}</div>
-                    <div style="color: #94A3B8; font-size: 0.8rem;">Matched: <span style="color: #E2E8F0;">{correlation.matched_system}</span> ({correlation.confidence_score}%)</div>
+                    <div style="color: var(--brand-slate); font-size: 0.8rem;">Matched: <span style="color: var(--brand-onyx); font-weight: 600;">{correlation.matched_system}</span> ({correlation.confidence_score}%)</div>
                 </div>
             </div>
             """, unsafe_allow_html=True)
@@ -840,8 +730,8 @@ def render_escalation_card(analysis):
                         <div style="color: #EF4444; font-weight: bold;">{res['breach_probability']:.1%}</div>
                         <div style="font-size: 0.7rem;">Breach Prob.</div>
                     </div>
-                    <div style="background: rgba(212, 175, 55, 0.1); padding: 10px; border-radius: 5px; text-align: center;">
-                        <div style="color: #D4AF37; font-weight: bold;">${res['var_95']:.2f}M</div>
+                    <div style="background: rgba(243, 112, 33, 0.1); padding: 10px; border-radius: 5px; text-align: center;">
+                        <div style="color: #C2410C; font-weight: bold;">${res['var_95']:.2f}M</div>
                         <div style="font-size: 0.7rem;">Est. Loss</div>
                     </div>
                 </div>
@@ -903,54 +793,95 @@ def render_audit_log():
     st.markdown("### 📊 Activity Log")
     
     # Executive Summary
+    # Executive Summary Cards
     total_escalated = len([e for e in st.session_state['audit_log'] if e['action'] == 'ESCALATED'])
     total_dismissed = len([e for e in st.session_state['audit_log'] if e['action'] == 'DISMISSED'])
     total_routed = len([e for e in st.session_state['audit_log'] if e['action'] == 'ROUTED'])
-    
-    st.markdown(f"""
-    <div class="exec-summary">
-        <div class="exec-summary-title">📈 Executive Summary</div>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; color: #94A3B8;">
-            <div>
-                <div style="font-size: 2rem; color: #FF5E00; font-weight: 700;">{total_escalated}</div>
-                <div>Signals Escalated</div>
-            </div>
-            <div>
-                <div style="font-size: 2rem; color: #64748B; font-weight: 700;">{total_dismissed}</div>
-                <div>Signals Dismissed</div>
-            </div>
-            <div>
-                <div style="font-size: 2rem; color: #10B981; font-weight: 700;">{total_routed}</div>
-                <div>Routed to Teams</div>
-            </div>
-        </div>
-    </div>
+    st.markdown("""
+    <div style="font-size: 1.1rem; font-weight: 700; color: var(--brand-onyx); margin-bottom: 20px;">📈 Activity Overview</div>
     """, unsafe_allow_html=True)
     
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.markdown(f"""
+        <div style="background: var(--risk-low); border: 1px solid rgba(234, 88, 12, 0.2); border-radius: 12px; padding: 20px; text-align: center; box-shadow: var(--shadow-lift);">
+            <div style="font-size: 2.5rem; color: var(--risk-high); font-weight: 800;">{total_escalated}</div>
+            <div style="color: var(--brand-onyx); font-weight: 600;">Signals Escalated</div>
+        </div>
+        """, unsafe_allow_html=True)
+        
+    with col2:
+        st.markdown(f"""
+        <div style="background: var(--bg-card); border: 1px solid var(--brand-cloud); border-radius: 12px; padding: 20px; text-align: center; box-shadow: var(--shadow-lift);">
+            <div style="font-size: 2.5rem; color: var(--brand-slate); font-weight: 800;">{total_dismissed}</div>
+            <div style="color: var(--brand-onyx); font-weight: 600;">Signals Dismissed</div>
+        </div>
+        """, unsafe_allow_html=True)
+        
+    with col3:
+        st.markdown(f"""
+        <div style="background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 12px; padding: 20px; text-align: center; box-shadow: var(--shadow-lift);">
+            <div style="font-size: 2.5rem; color: #15803D; font-weight: 800;">{total_routed}</div>
+            <div style="color: var(--brand-onyx); font-weight: 600;">Routed to Teams</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    st.markdown("<br>", unsafe_allow_html=True)
+    
     # Generate Report Button
-    if st.button("📄 Generate Management Report", type="primary"):
+    if st.button("📄 Generate Management Report", type="primary", use_container_width=True):
         report = generate_management_report()
         st.download_button(
             "⬇️ Download Report",
             report,
             file_name=f"ai_command_center_report_{datetime.now().strftime('%Y%m%d_%H%M')}.md",
-            mime="text/markdown"
+            mime="text/markdown",
+             use_container_width=True
         )
     
     st.divider()
     
     # Detailed Log
+    st.markdown("### 📝 Recent Actions")
     if not st.session_state['audit_log']:
         st.info("No actions recorded yet. Start reviewing signals to populate the audit trail.")
     else:
         for entry in reversed(st.session_state['audit_log'][-20:]):
-            action_class = entry['action'].lower()
+            action_map = {
+                "ESCALATED": {"icon": "🚀", "bg": "#FFF7ED", "border": "#F59E0B"},
+                "DISMISSED": {"icon": "🗑️", "bg": "#F9FAFB", "border": "#E5E7EB"},
+                "ROUTED": {"icon": "📤", "bg": "#F0FDF4", "border": "#10B981"},
+                "RESOLVED": {"icon": "✅", "bg": "#F0FDF4", "border": "#10B981"},
+                "CHECK_REGULATORY": {"icon": "📋", "bg": "#EFF6FF", "border": "#3B82F6"},
+                "CHECK_EVIDENCE": {"icon": "🔍", "bg": "#EFF6FF", "border": "#3B82F6"},
+                "RUN_SIMULATION": {"icon": "🎲", "bg": "#FAF5FF", "border": "#8B5CF6"},
+                "CHECK_ETHICS": {"icon": "⚖️", "bg": "#FDF2F8", "border": "#EC4899"}
+            }
+            
+            act = entry['action']
+            style = action_map.get(act, {"icon": "📝", "bg": "#FFFFFF", "border": "#E5E7EB"})
+            
             st.markdown(f"""
-            <div class="audit-entry">
-                <span class="audit-timestamp">{entry['timestamp'][:19]}</span>
-                <span class="audit-action {action_class}">{entry['action']}</span>
-                <span style="color: #E2E8F0;">Signal: {entry['signal_id']}</span>
-                <span style="color: #64748B; margin-left: auto;">{entry.get('details', '')}</span>
+            <div style="
+                background: {style['bg']}; 
+                border-left: 4px solid {style['border']}; 
+                border-radius: 4px; 
+                padding: 16px; 
+                margin-bottom: 12px;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+                display: flex;
+                align-items: center;
+                gap: 16px;
+            ">
+                <div style="font-size: 1.5rem;">{style['icon']}</div>
+                <div style="flex-grow: 1;">
+                    <div style="font-weight: 700; color: var(--brand-onyx);">{entry['action']} <span style="font-weight: 400; color: var(--brand-slate);">• {entry['signal_id']}</span></div>
+                    <div style="color: var(--brand-slate); font-size: 0.9rem;">{entry.get('details', '')}</div>
+                </div>
+                <div style="color: var(--brand-slate); font-size: 0.8rem; font-family: monospace; white-space: nowrap;">
+                    {entry['timestamp'][11:19]}
+                </div>
             </div>
             """, unsafe_allow_html=True)
 
@@ -1009,10 +940,10 @@ def render_governance_center():
                 data_card = json.load(f)
             
             st.markdown(f"""
-            <div class="glass-card">
-                <h4 style="color: #D4AF37;">{data_card['dataset_name']}</h4>
-                <p style="color: #94A3B8;">{data_card['description']}</p>
-                <hr style="border-color: rgba(255,255,255,0.1);">
+            <div class="glass-card" style="border-top: 4px solid var(--brand-blue);">
+                <h4 style="color: var(--brand-blue);">{data_card['dataset_name']}</h4>
+                <p style="color: var(--brand-slate);">{data_card['description']}</p>
+                <hr style="border-color: var(--brand-cloud);">
                 <p><strong>Records:</strong> {data_card['composition']['total_records']}</p>
                 <p><strong>PII Handling:</strong> {data_card['governance']['pii_redaction']}</p>
                 <p><strong>Synthetic Flag:</strong> ✅ Enabled</p>
@@ -1031,10 +962,10 @@ def render_governance_center():
                 model_card = json.load(f)
             
             st.markdown(f"""
-            <div class="glass-card">
-                <h4 style="color: #D4AF37;">{model_card['model_name']}</h4>
-                <p style="color: #94A3B8;">{model_card['intended_use']}</p>
-                <hr style="border-color: rgba(255,255,255,0.1);">
+            <div class="glass-card" style="border-top: 4px solid var(--brand-sunrise);">
+                <h4 style="color: var(--brand-sunrise);">{model_card['model_name']}</h4>
+                <p style="color: var(--brand-slate);">{model_card['intended_use']}</p>
+                <hr style="border-color: var(--brand-cloud);">
                 <p><strong>Type:</strong> {model_card['model_type']}</p>
                 <p><strong>Accuracy:</strong> {model_card['performance_metrics']['accuracy']:.0%}</p>
                 <p><strong>Latency P99:</strong> {model_card['performance_metrics']['latency_p99']}</p>
@@ -1064,12 +995,23 @@ def render_analytics_tab(result, events):
     with col1:
         st.markdown("#### ⚡ Pipeline Performance")
         st.markdown(f"""
-        <div class="glass-card">
-            <p><strong>Processing Time:</strong> {result.processing_time_ms}ms</p>
-            <p><strong>Events Processed:</strong> {len(events)}</p>
-            <p><strong>Signals Surfaced:</strong> {result.gating_result.signal_count}</p>
-            <p><strong>Noise Filtered:</strong> {result.gating_result.noise_count}</p>
-            <p><strong>Clusters Formed:</strong> {result.clustering_result.cluster_count}</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div style="background: #FFF7ED; padding: 12px; border-radius: 8px; text-align: center; border: 1px solid #FED7AA;">
+                <div style="font-size: 1.2rem; font-weight: 700; color: #EA580C;">{result.processing_time_ms}ms</div>
+                <div style="font-size: 0.8rem; color: var(--brand-slate);">Latency</div>
+            </div>
+            <div style="background: #E0F2FE; padding: 12px; border-radius: 8px; text-align: center; border: 1px solid #BAE6FD;">
+                <div style="font-size: 1.2rem; font-weight: 700; color: #0284C7;">{len(events)}</div>
+                <div style="font-size: 0.8rem; color: var(--brand-slate);">Events</div>
+            </div>
+            <div style="background: #DCFCE7; padding: 12px; border-radius: 8px; text-align: center; border: 1px solid #BBF7D0;">
+                <div style="font-size: 1.2rem; font-weight: 700; color: #16A34A;">{result.gating_result.signal_count}</div>
+                <div style="font-size: 0.8rem; color: var(--brand-slate);">Signals</div>
+            </div>
+            <div style="background: #F3F4F6; padding: 12px; border-radius: 8px; text-align: center; border: 1px solid #E5E7EB;">
+                <div style="font-size: 1.2rem; font-weight: 700; color: #4B5563;">{result.gating_result.noise_count}</div>
+                <div style="font-size: 0.8rem; color: var(--brand-slate);">Filtered</div>
+            </div>
         </div>
         """, unsafe_allow_html=True)
     
@@ -1080,8 +1022,8 @@ def render_analytics_tab(result, events):
             pct = count / sum(dist.values()) * 100 if dist.values() else 0
             st.markdown(f"""
             <div style="margin-bottom: 12px;">
-                <div style="color: #E2E8F0; margin-bottom: 4px;">{cat}: {count} signals</div>
-                <div class="risk-bar-container">
+                <div style="color: var(--brand-onyx); margin-bottom: 4px; font-weight: 500;">{cat}: {count} signals</div>
+                <div class="risk-bar-container" style="background: #E5E7EB;">
                     <div class="risk-bar-fill" style="width: {pct}%;"></div>
                 </div>
             </div>
@@ -1108,20 +1050,20 @@ def render_analytics_tab(result, events):
                 sim_result = sim.run_simulation(interest_rate, downtime, reg_fine, volatility, cyber_cost)
                 
                 st.markdown(f"""
-                <div class="glass-card" style="text-align: center; margin-top: 20px;">
+                <div class="glass-card" style="text-align: center; margin-top: 20px; border-top: 4px solid var(--risk-high);">
                     <div style="font-size: 3rem; font-weight: 800; color: {'#EF4444' if sim_result['is_breach'] else '#10B981'};">
                         {sim_result['breach_probability']:.1%}
                     </div>
-                    <div style="color: #94A3B8;">Probability of Risk Threshold Breach</div>
-                    <hr style="border-color: rgba(255,255,255,0.1); margin: 20px 0;">
+                    <div style="color: var(--brand-slate);">Probability of Risk Threshold Breach</div>
+                    <hr style="border-color: var(--brand-cloud); margin: 20px 0;">
                     <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; text-align: center;">
                         <div>
-                            <div style="color: #D4AF37; font-size: 1.5rem; font-weight: 700;">${sim_result['mean_impact']:.1f}M</div>
-                            <div style="color: #64748B;">Mean Impact</div>
+                            <div style="color: var(--brand-sunrise); font-size: 1.5rem; font-weight: 700;">${sim_result['mean_impact']:.1f}M</div>
+                            <div style="color: var(--brand-slate);">Mean Impact</div>
                         </div>
                         <div>
-                            <div style="color: #FF5E00; font-size: 1.5rem; font-weight: 700;">${sim_result['var_95']:.1f}M</div>
-                            <div style="color: #64748B;">VaR (95%)</div>
+                            <div style="color: #EA580C; font-size: 1.5rem; font-weight: 700;">${sim_result['var_95']:.1f}M</div>
+                            <div style="color: var(--brand-slate);">VaR (95%)</div>
                         </div>
                     </div>
                 </div>
