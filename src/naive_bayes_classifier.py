@@ -34,6 +34,12 @@ class ClassificationResult:
     class_probabilities: Dict[str, float]
     top_keywords: List[Tuple[str, float]]  # (keyword, contribution)
     raw_text: str
+    
+    # Consensus engine fields (populated after hybrid analysis)
+    is_ambiguous: bool = False
+    potential_sarcasm: bool = False
+    consensus_note: str = ""
+    semantic_override: Optional[str] = None  # Override class if sarcasm detected
 
 
 @dataclass
@@ -63,7 +69,12 @@ class NaiveBayesClassifier:
             'api': 2.0, 'gateway': 2.5, 'critical': 2.5, 'warning': 2.0,
             'not working': 3.0, "can't login": 2.5, 'broken': 2.5, 'issue': 2.0,
             'maintenance': 1.5, 'downtime': 3.0, 'atm': 2.0, 'stuck': 2.0,
-            'frozen': 2.5, 'hang': 2.0, 'unresponsive': 2.5
+            'frozen': 2.5, 'hang': 2.0, 'unresponsive': 2.5,
+            # Trusted Device / Neo App Keywords (Scenario 2)
+            'trusted device': 3.0, 'device not recognized': 3.5, 'neo app': 2.5,
+            'mashreq neo': 2.5, 'locked out': 3.0, 'chatbot loop': 3.5,
+            'security update': 2.5, '2fa': 2.5, 'biometric': 2.5,
+            'verification loop': 3.0, 'add device': 2.5, 'reverification': 3.0
         },
         'FRAUD': {
             # Fraud indicators
@@ -73,7 +84,18 @@ class NaiveBayesClassifier:
             'cybercrime': 3.5, 'identity theft': 3.5, 'compromised': 3.0,
             'malware': 3.0, 'ransomware': 3.5, 'trojan': 3.0, 'keylogger': 3.0,
             'unknown transaction': 3.0, 'didn\'t authorize': 3.0, 'not mine': 2.5,
-            'card cloned': 3.5, 'skimmed': 3.5
+            'card cloned': 3.5, 'skimmed': 3.5,
+            # WhatsApp/Social Specific
+            'whatsapp': 3.0, 'dm': 2.5, 'message': 2.0, 'prize': 3.0,
+            'lottery': 3.5, 'winner': 3.0, 'click link': 3.0,
+            # OTP Delay Patterns (Critical for Banking)
+            'otp delay': 3.5, 'delayed otp': 3.5, 'no otp': 3.0, 'otp not received': 3.5,
+            '10 mins': 2.5, '10 minutes': 2.5, 'waiting for otp': 3.0,
+            # Security Verification Phishing Keywords (Scenario 3)
+            'mashreq legal': 3.5, 'legal department': 3.0, 'security department': 3.0,
+            'verification call': 3.5, 'asked for otp': 3.5, 'asked for pin': 3.5,
+            'warning others': 3.0, 'impersonating': 3.5, 'fake call': 3.5,
+            'scam call': 3.5, 'scam alert': 3.5, '+971': 2.0, 'don\'t share': 2.5
         },
         'MISINFORMATION': {
             # Rumors and false info
@@ -83,7 +105,16 @@ class NaiveBayesClassifier:
             'breaking': 2.0, 'alert': 1.5, 'urgent': 2.0, 'warning': 1.5,
             'atm empty': 3.0, 'withdrawal limit': 2.0, 'money safe': 2.5,
             'close account': 2.5, 'move money': 2.5, 'panic': 3.0,
-            'crisis': 2.5, 'emergency': 2.0
+            'crisis': 2.5, 'emergency': 2.0,
+            # Liquidity Rumors (Critical for Banking Stability)
+            'liquidity': 3.5, 'withdraw': 2.5, 'can\'t withdraw': 3.0,
+            'liquidity issues': 3.5, 'liquidity rumor': 3.5, 'cash shortage': 3.0,
+            'out of cash': 3.0, 'funds safe': 2.5, 'withdrawing everything': 3.0,
+            # Digital Dirham / CBDC Keywords (Scenario 1)
+            'digital dirham': 3.5, 'cbdc': 3.0, 'central bank digital': 3.5,
+            'bridge': 2.5, 'bridge timeout': 3.5, 'ledger sync': 3.5,
+            'ledger sync error': 3.5, 'bridge failure': 3.5, 'cbdc connection': 3.0,
+            'ledger': 2.5, 'infrastructure collapse': 3.5, 'systemic': 2.5
         },
         'SENTIMENT': {
             # Customer sentiment
@@ -93,7 +124,9 @@ class NaiveBayesClassifier:
             'recommend': 2.0, 'avoid': 2.5, 'complaint': 2.5, 'feedback': 2.0,
             'experience': 1.5, 'service': 1.5, 'staff': 1.5, 'branch': 1.5,
             'thank': 2.0, 'thanks': 2.0, 'helpful': 2.0, 'rude': 2.5,
-            'unprofessional': 2.5, 'excellent': 2.0
+            'unprofessional': 2.5, 'excellent': 2.0,
+            # NEW: Service Specific
+            'slow': 2.0, 'lag': 2.0, 'waiting': 2.0, 'queue': 1.5
         },
         'NOISE': {
             # Routine/background
@@ -102,7 +135,9 @@ class NaiveBayesClassifier:
             'location': 2.0, 'atm location': 2.5, 'card': 1.5, 'new card': 2.0,
             'activate': 2.0, 'statement': 2.0, 'transfer': 1.5, 'how to': 2.0,
             'what is': 2.0, 'where': 1.5, 'when': 1.5, 'fee': 1.5,
-            'information': 1.5, 'inquiry': 2.0, 'question': 2.0
+            'information': 1.5, 'inquiry': 2.0, 'question': 2.0,
+            # NEW: Routine
+            'open': 1.5, 'close': 1.5, 'time': 1.5, 'address': 1.5
         }
     }
     

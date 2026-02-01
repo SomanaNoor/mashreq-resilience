@@ -187,9 +187,52 @@ def process_events(req: ProcessEventsRequest):
     }
 
 
+@app.post("/pipeline/run-from-csv")
+def run_from_csv():
+    """
+    CRITICAL: Trigger strict 10-stage pipeline from the validated CSV.
+    Ensures 'Synthetic Data Only' governance.
+    """
+    try:
+        from data_loader import load_csv_events
+        # Load directly from the governed source
+        events = load_csv_events("data/synthetic_social_signals_mashreq.csv")
+        
+        # Process through pipeline
+        pipeline = get_pipeline()
+        result = pipeline.process(events)
+        
+        # Format for Analyst View
+        clusters = [analysis.to_analyst_card() for analysis in result.cluster_analyses]
+        
+        return {
+             "status": "success",
+             "source": "synthetic_social_signals_mashreq.csv",
+             "events_processed": len(events),
+             "clusters_formed": len(clusters),
+             "analyst_cards": clusters,
+             "governance_check": result.governance_validated
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @app.post("/pipeline/decision")
-def log_human_decision(req: HumanDecisionRequest):
-    """Log a human decision for a cluster."""
+def log_human_decision(req: HumanDecisionRequest, x_role: str = "analyst"):
+    """
+    Log a human decision. Enforces RBAC.
+    
+    Headers:
+        X-Role: 'analyst' | 'reviewer' | 'admin'
+    """
+    # 1. RBAC Check (Stage 10)
+    from authz import validate_decision_authority
+    if not validate_decision_authority(x_role, req.decision):
+        raise HTTPException(
+            status_code=403, 
+            detail=f"Role '{x_role}' is not authorized to perform decision '{req.decision}'"
+        )
+
     pipeline = get_pipeline()
     success = pipeline.log_human_decision(
         cluster_id=req.cluster_id,

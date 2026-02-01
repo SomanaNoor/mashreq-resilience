@@ -18,60 +18,70 @@ class SimulationEngine:
                       market_volatility_vix: float, 
                       cyber_breach_cost_mm: float) -> dict:
         """
-        Runs the simulation.
+        Runs the simulation to estimate Financial Loss ($MM).
         
-        Variables are normalized to contribute to a 'Total Impact Score' (0-100+).
-        Each variable has a weight and a scaling factor.
+        Model Assumptions:
+        - Downtime Cost: ~$50k per hour ($0.83k/min) for digital banking channels
+        - Regulatory Fines: As input (+ uncertainty)
+        - Cyber Cost: As input (+ uncertainty)
+        - Market Severity: Multiplier effect on liquidity costs
         """
         
-        # 1. Define Mean & Sigma (Noise) for inputs to simulate uncertainty
-        # We assume 10% standard deviation variance in the realization of these risks
-        
-        # Generate random distributions
+        # Generator
         rng = np.random.default_rng()
         
-        sim_rates = rng.normal(interest_rate_bps, interest_rate_bps * 0.1 + 1, self.iterations)
-        sim_downtime = rng.normal(downtime_minutes, downtime_minutes * 0.1 + 1, self.iterations)
-        sim_fines = rng.normal(regulatory_fine_mm, regulatory_fine_mm * 0.1 + 0.1, self.iterations)
-        sim_vix = rng.normal(market_volatility_vix, market_volatility_vix * 0.1 + 1, self.iterations)
-        sim_cyber = rng.normal(cyber_breach_cost_mm, cyber_breach_cost_mm * 0.1 + 0.1, self.iterations)
+        # 1. Simulate Uncertainty (Distributions)
+        # We model "fat tails" (extreme events) using wider variance for Cyber & Fines
         
-        # 2. Calculate Impact Contributions (Normalized to partial scores)
+        # Downtime: Standard distribution (+/- 20%)
+        sim_downtime = rng.normal(downtime_minutes, downtime_minutes * 0.2, self.iterations)
         
-        # Interest Rate (bps): >200bps is high stress. Max 500. Weight 15.
-        score_rates = (sim_rates / 500) * 15
+        # Fines: Log-normal (skewed towards higher fines)
+        # Using simple normal for stability but with high variance
+        sim_fines = rng.normal(regulatory_fine_mm, regulatory_fine_mm * 0.3 + 0.1, self.iterations)
         
-        # Downtime (min): >240min (4hr) is critical. Max 1440. Weight 30 (Operational is key).
-        score_downtime = (sim_downtime / 480) * 30 
+        # Cyber: High variance (+/- 40%)
+        sim_cyber = rng.normal(cyber_breach_cost_mm, cyber_breach_cost_mm * 0.4 + 0.1, self.iterations)
         
-        # Reg Fines ($MM): >50MM is huge. Weight 20.
-        score_fines = (sim_fines / 50) * 20
+        # 2. Calculate Financial Loss Models ($ Millions)
         
-        # VIX: >30 is panic. Max 100. Weight 10.
-        score_vix = (sim_vix / 50) * 10
+        # A. Downtime Loss ($0.83k/min = $0.00083M/min)
+        COST_PER_MIN_MM = 0.00083
+        loss_downtime = np.maximum(sim_downtime, 0) * COST_PER_MIN_MM
         
-        # Cyber Cost ($MM): >10MM is severe. Weight 25.
-        score_cyber = (sim_cyber / 20) * 25
+        # B. Direct Costs
+        loss_fines = np.maximum(sim_fines, 0)
+        loss_cyber = np.maximum(sim_cyber, 0)
         
-        # 3. Total Impact Score
-        total_impact = score_rates + score_downtime + score_fines + score_vix + score_cyber
+        # C. Market / Liquidity Impact (Indirect)
+        # If VIX > 30 and Rates > 100bps, liquidity costs spike.
+        # Simplified: Base 0.1M, multiplier if stressed
+        market_stress_factor = (market_volatility_vix / 20) * (interest_rate_bps / 50)
+        loss_market = rng.normal(0.1, 0.05, self.iterations) * np.maximum(market_stress_factor, 1.0)
         
-        # Clip negative values (distributions can go negative if mean is near 0)
-        total_impact = np.maximum(total_impact, 0)
+        # 3. Total Financial Loss ($MM)
+        total_loss_mm = loss_downtime + loss_fines + loss_cyber + loss_market
+        
+        # Clip at 0
+        total_loss_mm = np.maximum(total_loss_mm, 0)
         
         # 4. Analyze Results
-        breach_count = np.sum(total_impact > self.impact_tolerance)
-        breach_prob = (breach_count / self.iterations) * 100
         
-        mean_impact = np.mean(total_impact)
-        var_95 = np.percentile(total_impact, 95)
+        # Risk Appetite: $5M for a single operational incident is the tolerance threshold
+        RISK_TOLERANCE_MM = 5.0
+        
+        breach_count = np.sum(total_loss_mm > RISK_TOLERANCE_MM)
+        breach_prob = (breach_count / self.iterations) # Decimal, not percentage
+        
+        mean_loss = np.mean(total_loss_mm)
+        var_95 = np.percentile(total_loss_mm, 95) # 95% Confidence Level VaR
         
         return {
-            "simulation_data": total_impact,
+            "simulation_data": total_loss_mm,
             "breach_probability": breach_prob,
-            "mean_impact": mean_impact,
-            "var_95": var_95,
-            "is_breach": breach_prob > 5.0 # If >5% probability of failure, it's a Breach Scenario
+            "mean_impact": mean_loss, # In $MM
+            "var_95": var_95,         # In $MM
+            "is_breach": breach_prob > 0.10 # Warning if >10% chance of exceeding tolerance
         }
 
 if __name__ == "__main__":

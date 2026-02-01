@@ -72,6 +72,52 @@ class GovernanceShield:
             
         return rewritten_text
 
+    def get_internal_action_plan(self, signal_context: dict) -> dict:
+        """
+        Generates a specific Internal Human Workflow based on the signal context.
+        Replaces external actions with verification steps.
+        """
+        category = signal_context.get('category', 'General')
+        risk_score = signal_context.get('risk_score', 0)
+        ambiguity = signal_context.get('ambiguity_status', {}).get('level', 'LOW')
+        
+        # 1. Regulatory Reporting Check
+        regulatory_check = "Check standard CBUAE logs."
+        if risk_score >= 7 or category in ['FRAUD', 'SERVICE_DISRUPTION']:
+            regulatory_check = "URGENT: Verify triggers for CBUAE 30-minute outage/incident reporting."
+        
+        # 2. Internal Evidence Gathering
+        internal_evidence = "Review general system dashboards."
+        if category == 'SERVICE_DISRUPTION':
+            internal_evidence = "Query IT Ops for last 30 mins of Gateway/Login latency logs."
+        elif category == 'FRAUD':
+            internal_evidence = "Request Fraud Ops to check recent OTP velocity patterns."
+        elif category == 'MISINFORMATION':
+            internal_evidence = "Request Legal to review 'Holding Statement' template for PR."
+            
+        # 3. Liquidity Stress-Test Params
+        stress_test = "Run standard volatility simulation."
+        if category == 'MISINFORMATION' or category == 'SOLVENCY_RUMOR':
+            stress_test = "Simulate 15% deposit withdrawal spike + Tier-1 news coverage impact."
+            
+        # 4. Bias & Ethical Review
+        bias_review = "Standard demographic fairness check."
+        if "discrimination" in str(signal_context).lower() or "bias" in str(signal_context).lower():
+             bias_review = "CRITICAL: Confirm if signal impacts specific protected demographic groups."
+        
+        # ESCALATION logic for High Ambiguity
+        escalation_target = "Department Head"
+        if ambiguity in ['AMBIGUOUS', 'MEDIUM', 'HIGH_UNCERTAINTY']:
+             escalation_target = "Senior Risk Committee (Due to High Ambiguity)"
+             
+        return {
+            "regulatory_check": regulatory_check,
+            "internal_evidence": internal_evidence,
+            "stress_test": stress_test,
+            "bias_review": bias_review,
+            "escalation_target": escalation_target
+        }
+
 # Example Usage Test
 if __name__ == "__main__":
     shield = GovernanceShield()
@@ -87,3 +133,7 @@ if __name__ == "__main__":
     # Test Grounding
     res = shield.check_grounding("User 550e8400-e29b-41d4-a716-446655440000 reported error.", [{"id": "other-id"}])
     print(f"Grounding Check: {res}")
+    
+    # Test Internal Workflow
+    ctx = {'category': 'MISINFORMATION', 'risk_score': 8, 'ambiguity_status': {'level': 'AMBIGUOUS'}}
+    print(f"Workflow: {shield.get_internal_action_plan(ctx)}")

@@ -173,29 +173,32 @@ class Guardrails:
         """
         violations = []
         warnings = []
-        
-        # Check source type
         source = event.get('source', '')
-        if source and source not in self.ALLOWED_SOURCES:
-            warnings.append(f"Unrecognized source type: {source}")
+
+        # 1. Enforce Synthetic Flag
+        if not event.get('metadata', {}).get('synthetic', False):
+             # Exception: If source explicitly says "Synthetic"
+             if "Synthetic" not in source:
+                 violations.append("Governance Violation: Non-synthetic data rejected.")
         
-        # Check for live data patterns
+        # 2. PII Redaction (Transformation, not just rejection)
         content = str(event.get('content', ''))
-        for pattern in self.LIVE_DATA_PATTERNS:
-            if re.search(pattern, content, re.IGNORECASE):
-                violations.append(f"Potential live/real data detected: {pattern}")
+        redacted_content = content
         
-        # Check for demographic proxies in metadata
-        metadata = event.get('metadata', {})
-        for proxy in self.DEMOGRAPHIC_PROXIES:
-            if proxy in metadata:
-                violations.append(f"Demographic proxy not allowed: {proxy}")
+        # Redact Phone Numbers (UAE & Intl - flexible spacing)
+        redacted_content = re.sub(r'(\+971|05\d)(\s?-?\d){7,11}', '[PHONE_REDACTED]', redacted_content)
+        # Redact Emails
+        redacted_content = re.sub(r'[\w\.-]+@[\w\.-]+\.\w+', '[EMAIL_REDACTED]', redacted_content)
+        # Redact IBANs (AE followed by 21 digits/chars)
+        redacted_content = re.sub(r'\b[A-Z]{2}\d{2}[A-Z0-9]{15,30}\b', '[IBAN_REDACTED]', redacted_content)
+        # Redact Social Handles (@username)
+        redacted_content = re.sub(r'@[\w_]{1,15}', '[HANDLE_REDACTED]', redacted_content)
         
-        # Check for user_id format (should be anonymized)
-        user_id = event.get('user_id', '')
-        if user_id and not self._is_anonymized_id(user_id):
-            warnings.append("User ID may not be properly anonymized")
-        
+        # Modify the event in place (Governance Transformation)
+        if redacted_content != content:
+            event['content'] = redacted_content
+            warnings.append("PII detected and redacted automatically.")
+
         return InputValidationResult(
             is_valid=len(violations) == 0,
             violations=violations,

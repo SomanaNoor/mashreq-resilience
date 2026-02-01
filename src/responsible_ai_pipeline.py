@@ -27,6 +27,7 @@ from datetime import datetime
 from guardrails import get_guardrails, validate_input
 from naive_bayes_classifier import get_classifier, ClassificationResult, BatchClassificationResult
 from signal_gate import get_signal_gate, GatingResult, GatedSignal
+from consensus_engine import get_consensus_engine, ConsensusResult
 from clustering_engine import get_clustering_engine, ClusteringResult, SignalCluster
 from risk_scorer import get_risk_scorer, RiskScore
 from confidence_scorer import get_confidence_scorer, ConfidenceScore
@@ -70,6 +71,25 @@ class ClusterAnalysis:
     
     def to_analyst_card(self) -> Dict[str, Any]:
         """Convert to analyst card format for UI."""
+        # Extract consensus flags from signals in cluster
+        has_sarcasm = False
+        has_ambiguity = False
+        consensus_notes = []
+        
+        for signal in self.cluster.signals:
+            # Check if signal has classification_result with consensus fields
+            if hasattr(signal, 'classification_result'):
+                cr = signal.classification_result
+            else:
+                cr = signal  # Direct ClassificationResult
+            
+            if hasattr(cr, 'potential_sarcasm') and cr.potential_sarcasm:
+                has_sarcasm = True
+            if hasattr(cr, 'is_ambiguous') and cr.is_ambiguous:
+                has_ambiguity = True
+            if hasattr(cr, 'consensus_note') and cr.consensus_note:
+                consensus_notes.append(cr.consensus_note)
+        
         return {
             "cluster_id": self.cluster.cluster_id,
             "title": self._generate_title(),
@@ -112,8 +132,34 @@ class ClusterAnalysis:
             # UI helpers
             "is_critical": self.risk_score.risk_level == "CRITICAL",
             "top_phrases": self.cluster.top_phrases,
-            "example_snippets": self.cluster.example_snippets
+            "example_snippets": self.cluster.example_snippets,
+            
+            # Consensus Engine Flags (Stage 1b)
+            "has_sarcasm": has_sarcasm,
+            "has_ambiguity": has_ambiguity,
+            "consensus_notes": consensus_notes[:3],  # Top 3 notes
+            
+            # Incident Management / Virality
+            "is_viral": getattr(self.cluster, 'is_viral', False),
+            "velocity_growth_pct": getattr(self.cluster, 'velocity_growth_pct', 0.0),
+            
+            # Strategic Ambiguity Gauge Logic
+            "ambiguity_status": self._get_ambiguity_status(self.confidence.percentage)
         }
+        
+    def _get_ambiguity_status(self, confidence_score: float) -> dict:
+        """
+        Transform abstract confidence into Strategic Ambiguity Gauge.
+        0-40%: Red (Low Confidence)
+        41-75%: Orange (Ambiguous - Human Intervention Required)
+        76-100%: Green (High Confidence)
+        """
+        if confidence_score <= 40:
+            return {"level": "LOW", "color": "red", "text": "Low Confidence Analysis"}
+        elif confidence_score <= 75:
+            return {"level": "AMBIGUOUS", "color": "orange", "text": "⚠️ Ambiguous Intent: Senior Review Req."}
+        else:
+            return {"level": "HIGH", "color": "green", "text": "High Confidence"}
     
     def _generate_title(self) -> str:
         """Generate a descriptive title."""
@@ -173,8 +219,44 @@ class ResponsibleAIPipeline:
         # Stage 1: Naïve Bayes Classification
         classification_result = self.classifier.classify_batch(events)
         
+        # Stage 1b: Hybrid Consensus Check (NB + Groq Semantic)
+        # Run semantic analysis on high-risk or ambiguous classifications
+        try:
+            consensus_engine = get_consensus_engine()
+            consensus_results = consensus_engine.validate_batch(
+                events, 
+                classification_result.results
+            )
+            
+            # Update classification results with consensus flags
+            for nb_result, consensus in zip(classification_result.results, consensus_results):
+                nb_result.is_ambiguous = consensus.is_ambiguous
+                nb_result.potential_sarcasm = consensus.potential_sarcasm
+                nb_result.consensus_note = consensus.consensus_note
+                if consensus.potential_sarcasm or consensus.is_ambiguous:
+                    nb_result.semantic_override = consensus.final_class
+        except Exception as e:
+            # Fallback: continue without consensus if Groq fails
+            print(f"⚠️ Consensus engine skipped: {e}")
+        
+        # Calculate signal volume map for Gating Override
+        # (Allows low-confidence signals to pass if volume is high)
+        from collections import Counter
+        event_ids = [r.event_id for r in classification_result.results]
+        # Since event_ids are unique, we need to group by SIMILARITY or CONTENT hash
+        # For this pipeline, we'll use a simplified content-based volume for Stage 2
+        content_hashes = [hash(r.raw_text[:50]) for r in classification_result.results]
+        content_counts = Counter(content_hashes)
+        
+        volume_map = {}
+        for r, h in zip(classification_result.results, content_hashes):
+             volume_map[r.event_id] = content_counts[h]
+
         # Stage 2: Noise vs Signal Gating
-        gating_result = self.signal_gate.gate_signals(classification_result.results)
+        gating_result = self.signal_gate.gate_signals(
+            classification_result.results, 
+            volume_map=volume_map  # NEW: Pass volume for override logic
+        )
         
         # Stage 3: Clustering
         surfaced_signals = gating_result.signals
